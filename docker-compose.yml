@@ -1,0 +1,54 @@
+version: '3'
+services:
+    health_insurance_app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: health_insurance_app
+        restart: always
+        tty: true
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        networks: 
+            - health_insurance_network
+        links:
+            - health_insurance_db
+
+    health_insurance_server:
+        image: nginx
+        container_name: health_insurance_server
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "8000:80"
+            - "4000:443"
+        networks:
+            - health_insurance_network
+        volumes:
+            - ./:/var/www
+            - ./nginx/conf.d/:/etc/nginx/conf.d
+
+    health_insurance_db:
+        image: mysql:5.7
+        container_name: health_insurance_db
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "33006:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_USERNAME: insurance
+            MYSQL_PASSWORD: insurance
+            MYSQL_DATABASE: insurance
+        networks: 
+            - health_insurance_network
+        volumes:
+            - ./data:/var/lib/mysql
+
+networks:
+    health_insurance_network:
+        driver: bridge
+
+
+
