@@ -28,7 +28,8 @@ class PlanRequest extends FormRequest
             "name" => "required|alpha_space|min:5|max:255|unique:plans,name,{$this->plan}",
             "limit_total" => "required|numeric|min:100.00|max:99999999.99|regex:/^\d+(\.\d{1,2})?$/",
             "territorial_limit" => "nullable|alpha_space|min:5|max:255",
-            "currency" => "required|alpha|in:MVR,USD"
+            "currency" => "required|alpha|in:MVR,USD",
+            "policy_id" => "required|numeric|exists:policies,id"
         ];
     }
 }

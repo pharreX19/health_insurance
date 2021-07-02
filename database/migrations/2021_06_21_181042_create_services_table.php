@@ -17,11 +17,11 @@ class CreateServicesTable extends Migration
             $table->id();
             $table->string('name', 255);
             $table->string('description', 255)->nullable();
-            // $table->enum('patient_type', ['inpatient', 'outpatient', 'emergency'])->nullable();
             $table->foreignId('service_type_id')->constrained();
-            $table->foreignId('service_limit_group_id')->nullable()->constrained();
-            $table->softDeletes();
+            $table->foreignId('service_limit_group_id')->constrained();
+            $table->boolean('is_active')->default(true);
             $table->index('name');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

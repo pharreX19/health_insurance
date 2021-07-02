@@ -11,6 +11,10 @@ class ServiceType extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name'
+    ];
+
     public function services() : HasMany{
         return $this->hasMany(Service::class);
     }

@@ -16,13 +16,13 @@ class SubscriberTableSeeder extends Seeder
      */
     public function run()
     {
-        $subscribers = Subscriber::factory(10)->create();
+        Subscriber::factory(10)->create();
 
-        $subscribers->each(function($subscriber){
-            PlanSubscriber::factory(1)->create([
-                'plan_id' => Plan::inRandomOrder()->first()->id,
-                'subscriber_id' => $subscriber->id
-            ]);
-        });
+        // $subscribers->each(function($subscriber){
+        //     PlanSubscriber::factory(1)->create([
+        //         'plan_id' => Plan::inRandomOrder()->first()->id,
+        //         'subscriber_id' => $subscriber->id
+        //     ]);
+        // });
     }
 }

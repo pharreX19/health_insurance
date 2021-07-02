@@ -13,12 +13,11 @@ class CreateServiceLimitGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('service_limit_groups', function (Blueprint $table) {
+        Schema::create("service_limit_groups", function (Blueprint $table) {
             $table->id();
-            $table->string('title', 50);
-            $table->string('slug', 50)->nullable();
-            $table->string('description', 255)->nullable();
-            $table->decimal('limit_total', 10, 2);
+            $table->string("title", 50)->unique();
+            $table->string("description", 255)->nullable();
+            // $table->decimal("limit_total", 10, 2);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,6 +30,6 @@ class CreateServiceLimitGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('service_limit_groups');
+        Schema::dropIfExists("service_limit_groups");
     }
 }

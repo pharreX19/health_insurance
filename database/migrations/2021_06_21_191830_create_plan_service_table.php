@@ -17,7 +17,11 @@ class CreatePlanServiceTable extends Migration
             $table->id();
             $table->foreignId('plan_id')->constrained();
             $table->foreignId('service_id')->constrained();
+            // $table->foreignId('service_limit_group_id')->nullable()->constrained();
+            $table->unsignedBigInteger("limit_group_calculation_type_id")->nullable()->default(NULL);
+            $table->foreign("limit_group_calculation_type_id")->references("id")->on("service_limit_group_calculation_types")->onDelete("set null");
             $table->decimal('limit_total', 10, 2)->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

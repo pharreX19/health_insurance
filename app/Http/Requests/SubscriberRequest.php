@@ -13,7 +13,7 @@ class SubscriberRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class SubscriberRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "name" => "required|alpha_space|min:5|max:255|unique:subscribers,name",
+            "passport" => "required_without:national_id|min:5|max:20|alpha_num",
+            "national_id" => "required_without:passport|min:5|max:20|alpha_num",
+            "work_permit" => "required_without:national_id|min:5|max:20|alpha_num",
+            "nationality" => "required|min:5|max:50|alpha_space",
+            "contact" => "nullable|string|min:7|max:20",
+            "company_id" => "nullable|numeric|exists:companies,id"
         ];
     }
 }

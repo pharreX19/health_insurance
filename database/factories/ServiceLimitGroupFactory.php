@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Model;
 use App\Models\ServiceLimitGroup;
+use App\Models\ServiceLimitGroupCalculationType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ServiceLimitGroupFactory extends Factory
@@ -20,13 +21,13 @@ class ServiceLimitGroupFactory extends Factory
      *
      * @return array
      */
+    // protected $items = ["OP" , "IP & OP", "Emergency" , "IP" ];
     public function definition()
     {
         return [
-            'title' => 'Annual',
-            'slug'=>'annual',
+            'title' => $this->faker->domainWord,
             'description'=> $this->faker->sentence(),
-            'limit_total' => $this->faker->randomNumber(4)
+            // 'limit_total' => $this->faker->randomNumber(4),
         ];
     }
 }

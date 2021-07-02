@@ -6,14 +6,18 @@ use App\Models\Plan;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Repostories\RepositoryInterface;
+use App\Models\Subscriber;
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
-class PlanRepository extends BaseRepository
+class SubscriberRepository extends BaseRepository
 {
 
     public function __construct()
     {
-        $this->model = Plan::class;
-        $this->allowedIncludes = ['subscribers', 'services'];
+        $this->model = Subscriber::class;
+        $this->allowedIncludes = ['plan', 'subscriptions', 'company', 'episodes'];
 
     }
 
@@ -72,4 +76,8 @@ class PlanRepository extends BaseRepository
     // public function destroy($id){
         // dd($this->model::delete($id));
     // }
+
+        public function search($identification){
+            return $this->model::where('national_id', 'LIKE', $identification."%")->orWhere('work_permit', $identification."%")->orWhere('passport', $identification."%")->firstOrFail();
+        }
 }

@@ -1,19 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Http\Resources\PlanResource;
+use Illuminate\Database\Eloquent\Model;
+use App\Http\Repositories\PlanRepository;
+use App\Http\Repositories\ServiceLimitGroupRepository;
+use App\Http\Repositories\ServiceRepository;
+use App\Http\Requests\PlanRequest;
+use App\Http\Requests\ServiceLimitGroupRequest;
+use App\Http\Requests\ServiceRequest;
+use ArrayAccess;
 
-class ServiceLimitGroupsController extends Controller
+class ServiceLimitGroupsController extends AbstractController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function __construct(ServiceLimitGroupRepository $serviceLimitGroupRepository)
     {
-        //
+        $this->repository = $serviceLimitGroupRepository;
     }
 
     /**
@@ -22,20 +27,9 @@ class ServiceLimitGroupsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ServiceLimitGroupRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return parent::createItem($request->validated());
     }
 
     /**
@@ -45,19 +39,8 @@ class ServiceLimitGroupsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ServiceLimitGroupRequest $request, $id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return parent::updateItem($request->validated(), $id);
     }
 }

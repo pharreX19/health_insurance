@@ -76,6 +76,10 @@ class BaseRepository implements RepositoryInterface
      * @return \Illuminate\Http\Response
      */
     public function update($validatedData, $id){
+        if(!is_array($validatedData)){
+            $validatedData = $validatedData->query();
+        }
+
         DB::beginTransaction();
 
         try{
@@ -112,7 +116,7 @@ class BaseRepository implements RepositoryInterface
 
     }
 
-    private function find($id){
+    protected function find($id){
         return $this->model::findOrFail($id);        
     }
 

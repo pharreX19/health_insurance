@@ -95,7 +95,7 @@ abstract class AbstractController extends Controller
     }
 
 
-    private function respondSuccess($initialResponse, $message, $statusCode = Response::HTTP_OK, $headers = [])
+    protected function respondSuccess($initialResponse, $message, $statusCode = Response::HTTP_OK, $headers = [])
     {
         $response =  [
             "success"=>[
@@ -114,10 +114,8 @@ abstract class AbstractController extends Controller
     protected function respondError($message, $statusCode = Response::HTTP_NOT_FOUND, $id = null){
         return response([
             "errors"=>[
-                "id" => $id,
                 "status" => $statusCode,
-                "code" => "not-found",
-                "title" => "Plan not found",
+                "code" => Response::$statusTexts[$statusCode],
                 "message" => $message,
             ]
         ]);

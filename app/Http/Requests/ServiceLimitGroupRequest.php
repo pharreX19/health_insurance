@@ -13,7 +13,7 @@ class ServiceLimitGroupRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class ServiceLimitGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "title" => "required|min:3|max:50|alpha_space|unique:service_limit_groups,title",
+            "description" => "nullable|min:5|max:255|alpha_space",
+            // "limit_total" => "required|numeric|min:1.00|max:99999999.99|regex:/^\d+(\.\d{1,2})?$/"
         ];
     }
 }

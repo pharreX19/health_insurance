@@ -29,7 +29,7 @@ class ServiceFactory extends Factory
             'description' => $this->faker->sentence(),
             // 'patient_type' => $this->faker->randomElement(['inpatient', 'outpatient', 'emergency']),
             'service_type_id' => ServiceType::inRandomOrder()->first()->id,
-            'service_limit_group_id'=> ServiceLimitGroup::inRandomOrder()->first()->id
+            "service_limit_group_id" => ServiceLimitGroup::inRandomOrder()->first()->id
         ];
     }
 }
