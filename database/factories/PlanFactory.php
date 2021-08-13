@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Model;
 use App\Models\Plan;
+use App\Models\Model;
+use App\Models\Policy;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PlanFactory extends Factory
@@ -26,7 +27,9 @@ class PlanFactory extends Factory
             'name'=> $this->faker->colorName(),
             'limit_total'=>$this->faker->randomNumber(6),
             'territorial_limit'=>'SAARC',
-            'currency'=> $this->faker->randomElement(['MVR', 'USD'])
+            'currency'=> $this->faker->randomElement(['MVR', 'USD']),
+            'premium' => $this->faker->numberBetween(100, 10000),
+            "policy_id" => Policy::inRandomOrder()->first()->id
         ];
     }
 }

@@ -12,7 +12,7 @@ class ServiceRepository extends BaseRepository
     public function __construct()
     {
         $this->model = Service::class;
-        $this->allowedIncludes = ['limitGroup', 'plans', 'subscribers', 'type'];
+        $this->allowedIncludes = ['serviceLimitGroup', 'plans', 'episodes', 'serviceType', 'plans.serviceLimitGroups', 'serviceLimitGroupCalculationType'];
     }
 
     /**

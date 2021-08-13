@@ -52,7 +52,6 @@ class Handler extends ExceptionHandler
     }
 
     private function handleApiException($request, $exception){
-
         $exception = $this->prepareException($exception);
 
         if($exception instanceof HttpResponseException){

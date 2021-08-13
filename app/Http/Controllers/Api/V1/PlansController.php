@@ -24,7 +24,6 @@ class PlansController extends AbstractController
      *
      * @return \Illuminate\Http\Response
      */
-    // public function index()
     // {
         // dd(collect(data_get(request()->input(), 'include', [])));
 

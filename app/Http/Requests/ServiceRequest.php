@@ -27,7 +27,7 @@ class ServiceRequest extends FormRequest
             "name" => "required|alpha_space|min:5|max:255|unique:services,name,{$this->service}",
             "description" => "nullable|alpha_space|min:5|max:255",
             "service_type_id" => "required|numeric|exists:service_types,id",
-            "service_limit_group_id" => "nullable|numeric|exists:service_limit_groups",
+            "service_limit_group_id" => "required|numeric|exists:service_limit_groups,id",
         ];
     }
 }

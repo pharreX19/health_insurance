@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\PlanServiceLimitGroup;
 use App\Models\Subscriber;
 use Illuminate\Database\Seeder;
 use App\Models\ServiceLimitGroup;
+use App\Models\ServiceLimitGroupCalculationType;
 use App\Models\ServiceSubscriber;
 use Illuminate\Support\Facades\DB;
 
@@ -21,12 +23,17 @@ class DatabaseSeeder extends Seeder
          'companies',
          'service_types',
          'service_limit_groups',
+         'service_limit_group_calculation_types',
          'services',
          'plans',
          'subscribers',
-         'service_subscriber',
-         'plan_subscriber',
-         'plan_service'
+        //  'service_subscriber',
+         'claims',
+         'plan_service',
+         'policies',
+         'episodes',
+         'episode_service',
+         'countries'
      ];
 
     public function run()
@@ -38,6 +45,9 @@ class DatabaseSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
         \App\Models\User::factory(10)->create();
+        $this->call(ServiceProviderTableSeeder::class);
+        $this->call(ServiceLimitGroupCalculationTypeTableSeeder::class);
+        $this->call(PolicyTableSeeder::class);
         $this->call(UserTableSeeder::class);
         $this->call(CompanyTableSeeder::class);
         $this->call(ServiceTypeTableSeeder::class);
@@ -45,8 +55,13 @@ class DatabaseSeeder extends Seeder
         $this->call(ServiceTableSeeder::class);
         $this->call(PlanTableSeeder::class);
         $this->call(SubscriberTableSeeder::class);
-        $this->call(ServiceSubscriberTableSeeder::class);
-
+        $this->call(EpisodeTableSeeder::class);
+        $this->call(ClaimTableSeeder::class);
+        $this->call(SubscriptionTableSeeder::class);
+        $this->call(EpisodeTableSeeder::class);
+        $this->call(PlanServiceLimitGroupTableSeeder::class);
+        $this->call(EpisodeServiceTableSeeder::class);
+        $this->call(CountryTableSeeder::class);
 
     }
 }

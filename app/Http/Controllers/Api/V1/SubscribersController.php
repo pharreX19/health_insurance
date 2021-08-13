@@ -1,19 +1,31 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Http\Resources\PlanResource;
+use Illuminate\Database\Eloquent\Model;
+use App\Http\Repositories\PlanRepository;
+use App\Http\Repositories\ServiceLimitGroupRepository;
+use App\Http\Repositories\ServiceRepository;
+use App\Http\Repositories\ServiceTypeRepository;
+use App\Http\Repositories\SubscriberRepository;
+use App\Http\Requests\PlanRequest;
+use App\Http\Requests\ServiceLimitGroupRequest;
+use App\Http\Requests\ServiceRequest;
+use App\Http\Requests\ServiceTypeRequest;
+use App\Http\Requests\SubscriberRequest;
+use App\Models\Plan;
+use App\Models\Subscriber;
+use ArrayAccess;
+use Illuminate\Support\Facades\Request;
 
-class SubscribersController extends Controller
+class SubscribersController extends AbstractController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function __construct(SubscriberRepository $subscriberRepository)
     {
-        //
+        $this->repository = $subscriberRepository;
     }
 
     /**
@@ -22,20 +34,9 @@ class SubscribersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SubscriberRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return parent::createItem($request->validated());
     }
 
     /**
@@ -45,19 +46,13 @@ class SubscribersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SubscriberRequest $request, $id)
     {
-        //
+        return parent::updateItem($request->validated(), $id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function search($identification){
+        return $this->respondSuccess(["data" => $this->repository->search($identification)], "Record fetched successfully");
     }
+
 }

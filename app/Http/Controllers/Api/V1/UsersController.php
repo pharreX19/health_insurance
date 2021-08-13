@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
+use App\Models\User;
+use App\Models\Permission;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
+use App\Http\Repositories\UserRepository;
+use App\Http\Controllers\Api\V1\AbstractController;
 
-class UsersController extends Controller
+class UsersController extends AbstractController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function __construct(UserRepository $userRepository)
     {
-        //
+        $this->repository = $userRepository;
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -22,9 +25,9 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        return parent::createItem($request->validated());
     }
 
     /**
@@ -49,15 +52,13 @@ class UsersController extends Controller
     {
         //
     }
+    
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function assignRole(User $user, Role $role)
     {
-        //
+        return $this->repository->assignRole(...func_get_args());
     }
+
+
+    
 }

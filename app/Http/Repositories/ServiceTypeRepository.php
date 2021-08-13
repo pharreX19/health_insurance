@@ -6,14 +6,15 @@ use App\Models\Plan;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Repostories\RepositoryInterface;
+use App\Models\ServiceType;
 
-class PlanRepository extends BaseRepository
+class ServiceTypeRepository extends BaseRepository
 {
 
     public function __construct()
     {
-        $this->model = Plan::class;
-        $this->allowedIncludes = ['subscribers', 'services'];
+        $this->model = ServiceType::class;
+        $this->allowedIncludes = ['services'];
 
     }
 
