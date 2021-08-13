@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use App\Models\ServiceLimitGroup;
 use App\Http\Controllers\Api\V1\AbstractController;
 use App\Http\Repositories\PlanServiceLimitGroupRepository;
+use App\Http\Requests\PlanServiceLimitGroupRequest;
 
 class PlanServiceLimitGroupsController extends AbstractController
 {
@@ -21,9 +22,9 @@ class PlanServiceLimitGroupsController extends AbstractController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Plan $plan, ServiceLimitGroup $serviceLimitGroup)
+    public function store(Plan $plan, ServiceLimitGroup $serviceLimitGroup, PlanServiceLimitGroupRequest $request)
     {
-        $result = $this->repository->addServiceLimitGroupToPlan($plan, $serviceLimitGroup);
+        $result = $this->repository->addServiceLimitGroupToPlan( $plan, $serviceLimitGroup, $request->validated());
         return $this->respondSuccess(null, "Service added to plan successfully", Response::HTTP_CREATED);
     }
 
@@ -35,9 +36,9 @@ class PlanServiceLimitGroupsController extends AbstractController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Plan $plan, ServiceLimitGroup $serviceLimitGroup)
+    public function update(Plan $plan, ServiceLimitGroup $serviceLimitGroup, PlanServiceLimitGroupRequest $request)
     {
-        // $result = $this->repository->updateServiceOnPlan($request->validated(), $plan, $service);
+        $result = $this->repository->updateServiceOnPlan($plan, $serviceLimitGroup, $request->validated(),);
         return $this->respondSuccess(null, "Service on plan updated successfully", Response::HTTP_OK);
 
     }

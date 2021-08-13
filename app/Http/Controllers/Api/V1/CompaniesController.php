@@ -45,4 +45,8 @@ class CompaniesController extends AbstractController
     {
         return parent::updateItem($request->validated(), $id);
     }
+
+    public function search($registration){
+        return $this->respondSuccess(["data" => $this->repository->search($registration)], "Record fetched successfully");
+    }
 }

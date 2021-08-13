@@ -23,23 +23,25 @@ class SubscriptionRepository extends BaseRepository
     {
         $this->model = Subscription::class;
         $this->allowedIncludes = ['plan', 'subscriber'];
-        $this->service = new PlanSubscriptionService(new Subscription());
+        $this->planSubscriptionService = new PlanSubscriptionService(new Subscription());
     }
 
     public function store($validatedData)
     {
-        return $this->service->subscribe($validatedData);
+        return $this->planSubscriptionService->subscribe($validatedData);
     }
 
 
     public function update($validatedData, $id)
     {
-        return $this->service->subscribe($validatedData, $id);
+        return $this->planSubscriptionService->subscribe($validatedData, $id);
     }
 
     public function destroy($id)
-    {
-        return parent::update(new Request(["is_active" => false]), $id);
+    {   
+        if($this->planSubscriptionService->unsubscribe($id)){
+            return parent::update(new Request(["is_active" => false]), $id);
+        }
     }
 
 

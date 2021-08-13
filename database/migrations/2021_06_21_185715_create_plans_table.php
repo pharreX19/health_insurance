@@ -19,6 +19,7 @@ class CreatePlansTable extends Migration
             $table->decimal('limit_total', 10, 2)->default(0.0);
             $table->string('territorial_limit')->nullable();
             $table->enum('currency', ['MVR', 'USD'])->default('MVR');
+            $table->decimal('premium', 10, 2);
             $table->foreignId("policy_id")->constrained();
             $table->softDeletes();
             $table->timestamps();

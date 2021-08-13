@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ServiceProvider extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable =[
         'name',
@@ -29,4 +31,8 @@ class ServiceProvider extends Model
     // {
     //     return $this->hasMany(Claim::class);
     // }
+    public function receptionists()
+    {
+        return $this->hasMany(Receptionist::class);
+    }
 }

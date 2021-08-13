@@ -19,6 +19,7 @@ class CreatePlanServiceLimitGroupTable extends Migration
             $table->foreignId("plan_id")->constrained();
             $table->decimal("limit_total", 10, 2);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

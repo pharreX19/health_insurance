@@ -2,16 +2,8 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\PlanResource;
-use App\Models\Service;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Spatie\QueryBuilder\QueryBuilder;
-
-use function PHPUnit\Framework\isEmpty;
+use App\Http\Controllers\Controller;
 
 abstract class AbstractController extends Controller
 {
@@ -24,8 +16,9 @@ abstract class AbstractController extends Controller
     protected $resource;
 
     public function index()
-    {
-        return $this->paginatedResponse($this->repository->index());
+    {   
+        return $this->itemResponse($this->repository->index());
+        // return $this->paginatedResponse($this->repository->index());
     }
 
 
@@ -112,12 +105,12 @@ abstract class AbstractController extends Controller
 
 
     protected function respondError($message, $statusCode = Response::HTTP_NOT_FOUND, $id = null){
-        return response([
+        return response()->json([
             "errors"=>[
-                "status" => $statusCode,
+                "status" => 400,
                 "code" => Response::$statusTexts[$statusCode],
                 "message" => $message,
             ]
-        ]);
+        ])->header('status', $statusCode);
     }
 }

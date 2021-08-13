@@ -38,7 +38,7 @@ class Episode extends Pivot
 
     public function services(): BelongsToMany
     {
-        return $this->belongsToMany(Service::class, 'episode_service', 'episode_id')->withPivot('service_id', 'insurance_covered_limit', 'aasandha_covered_limit', 'self_covered_limit')->withTimestamps();
+        return $this->belongsToMany(Service::class, 'episode_service', 'episode_id')->withPivot('id', 'service_id', 'insurance_covered_limit', 'aasandha_covered_limit', 'self_covered_limit')->where('episode_service.deleted_at', null );
     }
 
 

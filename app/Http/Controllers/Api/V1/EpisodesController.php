@@ -21,7 +21,10 @@ class EpisodesController extends AbstractController
      */
     public function store(EpisodeRequest $request)
     {
-        return parent::createItem($request->validated());
+        $result = parent::createItem($request->validated());
+        $loadRelation = $result['data']->load('serviceProvider');
+        return $result;
+        // return parent::createItem($request->validated())['data']->load('serviceProvider');
     }
 
     /**

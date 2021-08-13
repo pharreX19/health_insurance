@@ -17,6 +17,7 @@ class BaseRepository implements RepositoryInterface
     protected $allowedSorts = ['created_at', 'updated_at'];
     protected $allowedIncludes = [];
     protected $allowedFilters = [];
+    protected $paginate = 15;
 
 
     /**
@@ -26,7 +27,7 @@ class BaseRepository implements RepositoryInterface
      */
     public function index()
     {
-        return QueryBuilder::for($this->model)->allowedSorts($this->allowedSorts)->allowedFilters($this->allowedFilters)->allowedIncludes($this->allowedIncludes)->paginate(2);
+        return QueryBuilder::for($this->model)->allowedSorts($this->allowedSorts)->defaultSort('-created_at')->allowedFilters($this->allowedFilters)->allowedIncludes($this->allowedIncludes)->get();//->paginate(15);
  
     }
 

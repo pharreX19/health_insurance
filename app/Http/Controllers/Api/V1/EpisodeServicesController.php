@@ -25,7 +25,7 @@ class EpisodeServicesController extends AbstractController
     public function store(EpisodeServiceRequest $request)
     {
         $result = $this->repository->addServiceToEpisode($request->validated());
-        return $this->respondSuccess(null, "Service added to episode successfully", Response::HTTP_CREATED);
+        return $this->respondSuccess(null, "Service(s) added to episode successfully", Response::HTTP_CREATED);
     }
 
 

@@ -73,4 +73,8 @@ class CompanyRepository extends BaseRepository
     // public function destroy($id){
         // dd($this->model::delete($id));
     // }
+
+    public function search($registration){
+        return $this->model::where('registration', 'LIKE', strtolower($registration).'%')->get();
+    }
 }

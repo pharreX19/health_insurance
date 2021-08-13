@@ -27,7 +27,7 @@ class ServicesSubscriptionRepository extends BaseRepository
 
     public function post(Subscriber $subscriber, Service $service)
     {
-        $currentSubscription = (new PlanSubscriptionService($subscriber->subscriptions()->getRelated()))->validSubscription($subscriber->id);
+        $currentSubscription = (new PlanSubscriptionService($subscriber->subscriptions()->getRelated()))->validSubscription($subscriber->id,1);
 
         if ($currentSubscription && $this->service->serviceExistsOnPlan($currentSubscription->plan, $service)) {
 

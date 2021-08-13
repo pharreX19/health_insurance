@@ -10,4 +10,9 @@ class Receptionist extends User
 {
     use HasFactory, Child;
 
+    public function serviceProvider()
+    {
+        return $this->belongsTo(ServiceProvider::class);
+    }
+
 }

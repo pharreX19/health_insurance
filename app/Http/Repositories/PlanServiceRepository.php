@@ -56,7 +56,7 @@ class PlanServiceRepository extends BaseRepository
        try{
         DB::beginTransaction();
         $plan->services()->attach($service->id, [
-            "limit_total" => $validatedData["limit_total"],
+            "limit_total" => $validatedData["limit_total"] ?? null,
             "limit_group_calculation_type_id" => $validatedData["limit_group_calculation_type_id"] ?? null,
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),

@@ -5,16 +5,33 @@ namespace App\Http\Controllers\Api\V1;
 use App\Models\Plan;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Requests\AddServiceToPlanRequest;
 use App\Http\Repositories\PlanServiceRepository;
+use App\Http\Services\ServiceSubscriptionService;
 use App\Http\Controllers\Api\V1\AbstractController;
-use Illuminate\Http\Response;
 
 class PlanServicesController extends AbstractController
 {
     public function __construct(PlanServiceRepository $planServiceRepository)
     {
         $this->repository = $planServiceRepository;
+    }
+
+    /**
+     * Search for a created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search($subscriberId, $planId ,$serviceId)
+    {
+        $result = (new ServiceSubscriptionService())->getPlanServiceLimit($serviceId, $subscriberId);
+        return $this->respondSuccess(['data' => [
+            'insurance_covered_limit' => $result['insurance_covered_limit'],
+            'service_limit_group_total' => $result['service_limit_group_total'] ?? null,
+            'service_calculation_type' => $result['service_calculation_type'] ?? null,
+        ]], "Service fetched successfully", Response::HTTP_OK);
     }
 
     /**

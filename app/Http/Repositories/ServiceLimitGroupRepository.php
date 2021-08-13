@@ -14,7 +14,7 @@ class ServiceLimitGroupRepository extends BaseRepository
     public function __construct()
     {
         $this->model = ServiceLimitGroup::class;
-        $this->allowedIncludes = ['services', 'plans'];
+        $this->allowedIncludes = ['services', 'plans', 'services.service_limit_group'];
 
     }
 

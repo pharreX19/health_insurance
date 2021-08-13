@@ -15,7 +15,7 @@ class CreateServiceLimitGroupsTable extends Migration
     {
         Schema::create("service_limit_groups", function (Blueprint $table) {
             $table->id();
-            $table->string("title", 50)->unique();
+            $table->string("name", 50)->unique();
             $table->string("description", 255)->nullable();
             // $table->decimal("limit_total", 10, 2);
             $table->softDeletes();

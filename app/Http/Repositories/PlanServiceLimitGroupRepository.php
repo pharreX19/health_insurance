@@ -23,14 +23,14 @@ class PlanServiceLimitGroupRepository extends BaseRepository
     }
 
 
-    public function addServiceLimitGroupToPlan($plan, $serviceLimitGroup)
+    public function addServiceLimitGroupToPlan($plan, $serviceLimitGroup, $validatedData)
     {
         $result = $this->serviceLimitGroupDoesNotExistOnPlan($plan, $serviceLimitGroup);
         return $this->serviceToPlan(...func_get_args());
     }
 
 
-    public function updateServiceLimitGroupOnPlan($plan, $serviceLimitGroup){
+    public function updateServiceLimitGroupOnPlan($plan, $serviceLimitGroup, $validatedData){
         $result = $this->serviceLimitGroupExistsOnPlan($plan, $serviceLimitGroup);
         $this->detachService($plan, $serviceLimitGroup);
         return $this->serviceToPlan(...func_get_args());
@@ -66,13 +66,13 @@ class PlanServiceLimitGroupRepository extends BaseRepository
     }
 
 
-    private function serviceToPlan($validatedData, $plan, $service)
+    private function serviceToPlan($plan, $serviceLimitGroup, $validatedData)
     {
        try{
         DB::beginTransaction();
-        $plan->services()->attach($service->id, [
+        $plan->serviceLimitGroups()->attach($serviceLimitGroup->id, [
             "limit_total" => $validatedData["limit_total"],
-            "limit_group_calculation_type_id" => $validatedData["limit_group_calculation_type_id"] ?? null,
+            // "limit_group_calculation_type_id" => $validatedData["limit_group_calculation_type_id"] ?? null,
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
         ]);

@@ -20,6 +20,7 @@ class CreateClaimsTable extends Migration
             $table->decimal("claimable_amount", 10, 2);
             $table->enum("status", ["pending", "completed", "cancelled"])->default("pending");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

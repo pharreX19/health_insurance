@@ -18,6 +18,7 @@ class CreateServiceLimitGroupCalculationTypesTable extends Migration
             $table->enum("name", ["annually", "monthly", "daily", "per-event"])->default("annually");
             $table->string("slug", 255)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

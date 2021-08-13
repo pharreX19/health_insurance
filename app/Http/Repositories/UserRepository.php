@@ -3,18 +3,33 @@
 namespace App\Http\Repositories;
 
 use App\Models\Plan;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Repostories\RepositoryInterface;
+use App\Models\Permission;
 
-class PlanRepository extends BaseRepository
+class UserRepository extends BaseRepository
 {
 
     public function __construct()
     {
-        $this->model = Plan::class;
-        $this->allowedIncludes = ['subscribers', 'services'];
+        $this->model = User::class;
+        $this->allowedIncludes = ['role', 'role.permissions'];
 
+    }
+
+    public function assignRole(User $user, Role $role)
+    {
+        if(!$user->hasRole($role)){
+            $user->update([
+                'role_id' => $role->id
+            ]);
+            // dd($user);
+            // $role->save();
+        }
+        return true;
     }
 
     /**
@@ -72,4 +87,6 @@ class PlanRepository extends BaseRepository
     // public function destroy($id){
         // dd($this->model::delete($id));
     // }
+
+
 }

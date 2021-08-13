@@ -25,7 +25,7 @@ class ServiceLimitGroupFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->domainWord,
+            'name' => $this->faker->domainWord,
             'description'=> $this->faker->sentence(),
             // 'limit_total' => $this->faker->randomNumber(4),
         ];

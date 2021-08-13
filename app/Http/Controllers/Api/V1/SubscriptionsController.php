@@ -45,7 +45,7 @@ class SubscriptionsController extends AbstractController
         if(!$result){
             return $this->respondError("Subscription is not expired", Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-        return $this->respondSuccess(null, "Successfully renewed the subscription", Response::HTTP_CREATED);
+        return $this->respondSuccess(['data' => $result], "Successfully renewed the subscription", Response::HTTP_CREATED);
     }
 
     

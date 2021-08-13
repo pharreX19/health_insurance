@@ -25,7 +25,10 @@ class CompanyFactory extends Factory
         return [
             'name'=> $this->faker->company(),
             'registration'=> $this->faker->buildingNumber(),
-            'contact'=> $this->faker->randomNumber(8)
+            'contact'=> $this->faker->randomNumber(8),
+            'street' => $this->faker->streetName,
+            'address' => $this->faker->address,
+            'email' => $this->faker->safeEmail
         ];
     }
 }

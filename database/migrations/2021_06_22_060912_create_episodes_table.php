@@ -19,7 +19,7 @@ class CreateEpisodesTable extends Migration
             $table->foreignId("subscriber_id")->constrained();
             // $table->foreignId("service_id")->constrained();
             $table->foreignId("service_provider_id")->constrained();
-            $table->date("activity_at")->default(Date('Y-m-d'));
+            $table->dateTime("activity_at")->default(Date('Y-m-d h:i:sa'));
             $table->enum("status", ["pending", "completed", "cancelled"])->default("pending");
             $table->softDeletes();
             $table->timestamps();

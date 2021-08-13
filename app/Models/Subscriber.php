@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Traits\PolicyNumber;
 use App\Models\Plan;
 use App\Models\Company;
 use App\Models\Service;
@@ -15,15 +16,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Subscriber extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, PolicyNumber;
 
     protected $fillable = [
         "name",
         "passport",
+        "work_permit",
         "national_id",
-        "nationality",
+        "policy_number",
+        "country",
         "contact",
         "company_id",
+        'plan_id'
     ];
 
     public function episodes()
@@ -47,5 +51,14 @@ class Subscriber extends Model
 
     public function company() : BelongsTo{
         return $this->belongsTo(Company::class);
+    }
+
+    public function getPolicyNumberAttribute($value){
+        return str_replace("_", "", $value);
+    }
+
+    public function getPaymentMethodAttribute($value)
+    {
+        return str_replace('_', ' ', $value);
     }
 }

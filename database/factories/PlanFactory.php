@@ -28,6 +28,7 @@ class PlanFactory extends Factory
             'limit_total'=>$this->faker->randomNumber(6),
             'territorial_limit'=>'SAARC',
             'currency'=> $this->faker->randomElement(['MVR', 'USD']),
+            'premium' => $this->faker->numberBetween(100, 10000),
             "policy_id" => Policy::inRandomOrder()->first()->id
         ];
     }

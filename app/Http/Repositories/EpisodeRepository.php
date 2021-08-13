@@ -17,6 +17,7 @@ class EpisodeRepository extends BaseRepository
     {
         $this->model = Episode::class;
         $this->allowedIncludes = ['subscriber', 'services', 'serviceProvider'];
+        $this->allowedSorts = ['activity_at'];
 
     }
 

@@ -16,12 +16,14 @@ class CreateSubscriptionsTable extends Migration
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('subscriber_id')->constrained();
-            $table->foreignId('plan_id')->constrained();
+            // $table->foreignId('plan_id')->constrained();
             $table->decimal('plan_remaining', 10, 2);
             $table->date('begin_date')->nullable();
             $table->date('expiry_date')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->enum('payment_method', ['cash', 'credit card', 'cheque', 'credit', 'online payment'])->default('cash');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

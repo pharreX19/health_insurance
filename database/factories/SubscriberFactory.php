@@ -29,7 +29,7 @@ class SubscriberFactory extends Factory
             "name"=> $this->faker->name(),
             "passport" => $this->faker->creditCardNumber(),
             "national_id" => $this->faker->swiftBicNumber(),
-            "nationality"=> "Maldives",
+            "country"=> "Maldives",
             "contact" => $this->faker->phoneNumber,
             "company_id"=> Company::inRandomOrder()->first()->id,
             "plan_id"=> Plan::inRandomOrder()->first()->id

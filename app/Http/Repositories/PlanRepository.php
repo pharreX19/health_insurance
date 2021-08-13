@@ -13,7 +13,7 @@ class PlanRepository extends BaseRepository
     public function __construct()
     {
         $this->model = Plan::class;
-        $this->allowedIncludes = ['subscribers', 'services', 'subscriptions', 'policy'];
+        $this->allowedIncludes = ['subscribers', 'services', 'subscriptions', 'policy', 'serviceLimitGroups'];
 
     }
 

@@ -22,7 +22,10 @@ class CreateUsersTable extends Migration
             $table->enum('gender', ['male', 'female']);
             $table->string('contact', 10)->nullable();
             $table->boolean('active')->default(false);
+            $table->decimal('amount', 10, 2)->default(0.0);
             $table->string('password');
+            $table->string('role_id');
+            $table->foreignId('service_provider_id')->constrained()->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -32,7 +32,8 @@ class DatabaseSeeder extends Seeder
          'plan_service',
          'policies',
          'episodes',
-         'episode_service'
+         'episode_service',
+         'countries'
      ];
 
     public function run()
@@ -60,6 +61,7 @@ class DatabaseSeeder extends Seeder
         $this->call(EpisodeTableSeeder::class);
         $this->call(PlanServiceLimitGroupTableSeeder::class);
         $this->call(EpisodeServiceTableSeeder::class);
+        $this->call(CountryTableSeeder::class);
 
     }
 }

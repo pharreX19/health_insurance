@@ -24,11 +24,12 @@ class EpisodeServiceRequest extends FormRequest
     public function rules()
     {
         return [
-            "episode_id" => "required|numeric|exists:episodes,id",
-            "service_id" => "required|numeric|exists:services,id",
-            "insurance_covered_limit" =>  "required_with:service_id|numeric|min:1.00|max:99999999.99|regex:/^\d+(\.\d{1,2})?$/",
-            "aasandha_covered_limit" =>  "nullable|numeric|min:1.00|max:99999999.99|regex:/^\d+(\.\d{1,2})?$/",
-            "self_covered_limit" =>  "nullable|numeric|min:1.00|max:99999999.99|regex:/^\d+(\.\d{1,2})?$/",
+            "*.episode_id" => "required|numeric|exists:episodes,id",
+            "*.service_id" => "required|numeric|exists:services,id",
+            "*.limit_total" => "required|numeric|min:1.00|max:99999999.99|regex:/^\d+(\.\d{1,2})?$/",
+            "*.insurance_covered_limit" =>  "nullable|sometimes|numeric|min:0.00|max:99999999.99|regex:/^\d+(\.\d{1,2})?$/",
+            "*.aasandha_covered_limit" =>  "nullable|sometimes|numeric|min:0.00|max:99999999.99|regex:/^\d+(\.\d{1,2})?$/",
+            "*.self_covered_limit" =>  "nullable|sometimes|numeric|min:0.00|max:99999999.99|regex:/^\d+(\.\d{1,2})?$/",
         ];
     }
 }

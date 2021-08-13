@@ -24,7 +24,7 @@ class ServiceProviderRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|string|min:5|max:255|unique:service_providers,name,{$this->company}",
+            "name" => "required_if:id,null|string|min:5|max:255|unique:service_providers,name,{$this->service_provider}",
             "address" => "nullable|string|min:5|max:255",
             "street" => "nullable|string|min:5|max:255",
             "contact" => "nullable|string|min:7|max:20",

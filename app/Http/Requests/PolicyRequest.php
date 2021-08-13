@@ -24,7 +24,14 @@ class PolicyRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|min:3|max:255|alpha_space|unique:policies,name",
+            "name" => "required|min:3|max:255|alpha_space|unique:policies,name,{$this->policy}",
+            "number_format" => "required|min:3|max:50|alpha_dash",
+        ];
+    }
+
+    public function attributes(){
+        return [
+            'number_format' => 'policy number format'
         ];
     }
 }
