@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
 class Role extends Model
 {
@@ -14,6 +17,18 @@ class Role extends Model
     protected $fillable = [
         'name'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(function($model){
+            if($model->id === 1){
+                throw ValidationException::withMessages([
+                    "message" => "Cannot delete admin user role."
+                ]);
+            }
+        });
+    }
     
     public function permissions()
     {
