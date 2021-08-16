@@ -27,7 +27,12 @@ class UsersController extends AbstractController
      */
     public function store(UserRequest $request)
     {
-        return parent::createItem($request->validated());
+        $result =  parent::createItem($request->validated());
+        if($request->validated()['service_provider_id']){
+            $result['data']->serviceProviders()->attach($request->validated()['service_provider_id']);
+        }
+        return $result;
+        // $result->serviceProvider()->attach($request->validated()['service_provider_id']);
     }
 
     /**
