@@ -28,7 +28,9 @@ services:
             - health_insurance_network
         volumes:
             - ./:/var/www
-            - ./nginx/conf.d/:/etc/nginx/conf.d
+            - ./nginx/conf.d/:/etc/nginx/conf.d/
+        depends_on: 
+            - health_insurance_app
 
     health_insurance_db:
         image: mysql:5.7
