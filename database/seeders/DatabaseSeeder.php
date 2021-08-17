@@ -43,8 +43,7 @@ class DatabaseSeeder extends Seeder
             DB::table($table)->truncate();
         }
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
-
-        \App\Models\User::factory(10)->create();
+        $this->call(RoleTableSeeder::class);
         $this->call(ServiceProviderTableSeeder::class);
         $this->call(ServiceLimitGroupCalculationTypeTableSeeder::class);
         $this->call(PolicyTableSeeder::class);
@@ -62,6 +61,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PlanServiceLimitGroupTableSeeder::class);
         $this->call(EpisodeServiceTableSeeder::class);
         $this->call(CountryTableSeeder::class);
+        \App\Models\User::factory(10)->create();
 
     }
 }
