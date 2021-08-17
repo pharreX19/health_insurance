@@ -14,11 +14,13 @@ class RoleTableSeeder extends Seeder
      */
     public function run()
     {
-        $roles = ['User', 'Receptionist', 'Admin', 'Accountant', 'Employee'];
-        foreach($roles as $role){
-            Role::factory(1)->create([
-                'name' => $role
-            ]);
-        }
+        Role::factory(1)->create();
+
+        // $roles = ['User', 'Receptionist', 'Admin', 'Accountant', 'Employee'];
+        // foreach($roles as $role){
+        //     Role::factory(1)->create([
+        //         'name' => $role
+        //     ]);
+        // }
     }
 }
