@@ -25,9 +25,9 @@ class SubscriberRequest extends FormRequest
     {
         return [
             "*.name" => "required|alpha_space|min:5|max:255|unique:subscribers,name",
-            "*.passport" => "required_without:*.national_id|min:5|max:20|alpha_num|unique:subscribers,passport",
+            "*.passport" => "required_without:*.national_id|min:5|max:20|alpha_num|unique:subscribers,passport,{$this->subscriber}",
             "*.national_id" => "required_without:*.passport|min:5|max:20|alpha_num|unique:subscribers,national_id,NULL,id,deleted_at,NULL",
-            "*.work_permit" => "required_without:*.national_id|min:5|max:20|alpha_num|unique:subscribers,work_permit",
+            "*.work_permit" => "required_without:*.national_id|min:5|max:20|alpha_num|unique:subscribers,work_permit,{$this->subscriber}",
             "*.country" => "required|string|min:5|max:50|exists:countries,name",
             "*.contact" => "nullable|numeric|digits:7",
             "*.company_id" => "nullable|numeric|exists:companies,id",

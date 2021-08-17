@@ -107,7 +107,7 @@ abstract class AbstractController extends Controller
     protected function respondError($message, $statusCode = Response::HTTP_NOT_FOUND, $id = null){
         return response()->json([
             "errors"=>[
-                "status" => 400,
+                "status" => $statusCode,
                 "code" => Response::$statusTexts[$statusCode],
                 "message" => $message,
             ]

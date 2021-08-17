@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class IsAuthorized
 {
@@ -19,6 +20,6 @@ class IsAuthorized
         if(hasPermission($request->route()->getName())){
             return $next($request);
         }
-        return response()->json(['message' => 'You are not allowed to access this resource', 'status' => 403], 403 );
+        return response()->json(['message' => 'You are not allowed to access this resource', 'status' => Response::HTTP_FORBIDDEN], Response::HTTP_FORBIDDEN );
     }
 }

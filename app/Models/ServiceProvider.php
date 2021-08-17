@@ -33,6 +33,6 @@ class ServiceProvider extends Model
     // }
     public function receptionists()
     {
-        return $this->hasMany(Receptionist::class);
+        return $this->belongsToMany(User::class, 'service_provider_user');
     }
 }

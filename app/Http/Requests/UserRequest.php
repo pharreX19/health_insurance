@@ -25,13 +25,14 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => 'required|alpha_space|min:5|max:50',
-            'email' => 'required|email|min:5|max:50',
-            'user_type' => 'forbidden',
+            'email' => "required|email|min:5|max:50|unique:users,email,{$this->user}",
+            // 'user_type' => 'forbidden',
             'gender' => 'required|in:male,female',
             "contact" => "nullable|string|min:7|max:20",
             'active' => 'required|bool',
             'password' => 'required|min:5|max:20|string',
-            'role_id' => 'required|exists:roles,id|numeric'
+            'role_id' => 'required|exists:roles,id|numeric',
+            'service_provider_id' => 'required_unless:role_id,1|exists:service_providers,id|numeric'
         ];
     }
 }
