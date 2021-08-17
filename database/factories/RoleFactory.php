@@ -22,7 +22,9 @@ class RoleFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => 'admin',
+            'created_at' => now(),
+            'updated_at' => now()
         ];
     }
 }
