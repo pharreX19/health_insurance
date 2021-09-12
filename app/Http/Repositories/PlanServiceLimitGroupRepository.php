@@ -13,55 +13,70 @@ use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Repositories\BaseRepository;
 use App\Http\Repostories\RepositoryInterface;
 use App\Http\Services\ServiceSubscriptionService;
+use Illuminate\Validation\ValidationException;
 
 class PlanServiceLimitGroupRepository extends BaseRepository
 {
 
+    protected $repository;
+
     public function __construct()
     {
         $this->model = PlanServiceLimitGroup::class;
+        $this->repository = new ServiceLimitGroupRepository();
     }
 
 
-    public function addServiceLimitGroupToPlan($plan, $serviceLimitGroup, $validatedData)
+    public function addServiceLimitGroupToPlan($plan, $validatedData)
     {
-        $result = $this->serviceLimitGroupDoesNotExistOnPlan($plan, $serviceLimitGroup);
-        return $this->serviceToPlan(...func_get_args());
+        foreach($validatedData as $data){
+            $serviceLimitGroup = $this->repository->show($data['service_limit_group_id']);
+            if(!$this->serviceLimitGroupExistsOnPlan($plan, $serviceLimitGroup)){
+                $this->serviceToPlan($plan, $serviceLimitGroup, $data);
+            }else{
+                throw ValidationException::withMessages([
+                    'message' => 'Service limit group already present in this plan'
+                ]);
+            }
+        }
     }
 
 
-    public function updateServiceLimitGroupOnPlan($plan, $serviceLimitGroup, $validatedData){
-        $result = $this->serviceLimitGroupExistsOnPlan($plan, $serviceLimitGroup);
-        $this->detachService($plan, $serviceLimitGroup);
-        return $this->serviceToPlan(...func_get_args());
+    public function updateServiceLimitGroupOnPlan($plan, $validatedData){
+        foreach($validatedData as $data){
+            $serviceLimitGroup = $this->repository->show($data['service_limit_group_id']);
+            if($this->serviceLimitGroupExistsOnPlan($plan, $serviceLimitGroup)){
+                $this->detachService($plan, $serviceLimitGroup);
+                $this->serviceToPlan($plan, $serviceLimitGroup, $data);
+            }
+        }
     }
 
 
-    public function removeServiceLimitGroupFromPlan($plan, $serviceLimitGroup)
-    {
-        $result = $this->serviceLimitGroupExistsOnPlan($plan, $serviceLimitGroup);
-        return DB::transaction(function () use ($serviceLimitGroup, $plan){
-            $plan->services()->updateExistingPivot($serviceLimitGroup->id, [
-                "deleted_at" => Carbon::now()
-            ]);
-        });
+    // public function removeServiceLimitGroupFromPlan($plan, $serviceLimitGroup)
+    // {
+    //     $result = $this->serviceLimitGroupExistsOnPlan($plan, $serviceLimitGroup);
+    //     return DB::transaction(function () use ($serviceLimitGroup, $plan){
+    //         $plan->services()->updateExistingPivot($serviceLimitGroup->id, [
+    //             "deleted_at" => Carbon::now()
+    //         ]);
+    //     });
+    // }
+
+
+    private function serviceLimitGroupExistsOnPlan($plan, $serviceLimitGroup){
+        return $plan->serviceLimitGroups()->wherePivot('service_limit_group_id', $serviceLimitGroup->id)->exists();
     }
 
-
-    private function serviceLimitGroupDoesNotExistOnPlan($plan, $serviceLimitGroup){
-        $result = $plan->serviceLimitGroups()->wherePivot('service_limit_group_id', $serviceLimitGroup->id)->first();
+    // public function serviceLimitGroupExistsOnPlan()
+    // {
         
-    }
-
-    public function serviceLimitGroupExistsOnPlan()
-    {
-        
-    }
+    // }
 
 
     private function detachService($plan, $serviceLimitGroup){
         return DB::transaction(function () use ($serviceLimitGroup, $plan){
-            $plan->services()->detach($serviceLimitGroup->id);
+            $plan->serviceLimitGroups()->detach($serviceLimitGroup->id);
         });
     }
 

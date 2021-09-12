@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique()->index();
             $table->timestamp('email_verified_at')->nullable();
             // $table->string('user_type')->nullable();
-            $table->enum('gender', ['male', 'female']);
+            $table->enum('gender', ['Male', 'Female']);
             $table->string('contact', 10)->nullable();
             $table->boolean('active')->default(false);
             $table->decimal('amount', 10, 2)->default(0.0);
@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             // $table->foreignId('service_provider_id')->nullable()->constrained();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

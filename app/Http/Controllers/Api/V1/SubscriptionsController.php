@@ -23,14 +23,14 @@ class SubscriptionsController extends AbstractController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SubscriptionRequest $request)
-    {
-        $result = $this->repository->store($request->validated());
-        if(!$result){
-            return $this->respondError("Already subscribed to a plan", Response::HTTP_CONFLICT);
-        } 
-        return $this->respondSuccess(null, "Successfully subscribed to the new plan", Response::HTTP_CREATED);
-    }
+    // public function store(SubscriptionRequest $request)
+    // {
+    //     $result = $this->repository->store($request->validated());
+    //     if(!$result){
+    //         return $this->respondError("Already subscribed to a plan", Response::HTTP_CONFLICT);
+    //     } 
+    //     return $this->respondSuccess(null, "Successfully subscribed to the new plan", Response::HTTP_CREATED);
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -50,24 +50,24 @@ class SubscriptionsController extends AbstractController
 
     
 
-    public function subscribe(Subscriber $subscriber, Plan $plan)
-    {
-        $result = $this->repository->subscribe($subscriber, $plan);
-        if(!$result){
-            return $this->respondError("Already subscribed to a plan", Response::HTTP_CONFLICT);
-        }
-        return $this->respondSuccess(null, "Successfully subscribed to the new plan", Response::HTTP_CREATED);
-    }
+    // public function subscribe(Subscriber $subscriber, Plan $plan)
+    // {
+    //     $result = $this->repository->subscribe($subscriber, $plan);
+    //     if(!$result){
+    //         return $this->respondError("Already subscribed to a plan", Response::HTTP_CONFLICT);
+    //     }
+    //     return $this->respondSuccess(null, "Successfully subscribed to the new plan", Response::HTTP_CREATED);
+    // }
 
 
-    public function destroy($id)
-    {
-        $result = $this->repository->destroy($id);
-        if(!$result){
-            return $this->respondError("No active subscription found for the selected plan", Response::HTTP_NOT_FOUND);
-        }
-        return $this->respondSuccess(null, "Successfully unsubscribed the selected plan", Response::HTTP_CREATED);
-    }
+    // public function destroy($id)
+    // {
+    //     $result = $this->repository->destroy($id);
+    //     if(!$result){
+    //         return $this->respondError("No active subscription found for the selected plan", Response::HTTP_NOT_FOUND);
+    //     }
+    //     return $this->respondSuccess(null, "Successfully unsubscribed the selected plan", Response::HTTP_CREATED);
+    // }
 
 
     // public function renewSubscription(Subscriber $subscriber, Plan $plan)

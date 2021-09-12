@@ -7,10 +7,13 @@ use Illuminate\Http\Response;
 use App\Models\ServiceLimitGroup;
 use App\Http\Controllers\Api\V1\AbstractController;
 use App\Http\Repositories\PlanServiceLimitGroupRepository;
+use App\Http\Repositories\ServiceLimitGroupRepository;
 use App\Http\Requests\PlanServiceLimitGroupRequest;
 
 class PlanServiceLimitGroupsController extends AbstractController
 {
+
+
     public function __construct(PlanServiceLimitGroupRepository $planServiceLimitGroupRepository)
     {
         $this->repository = $planServiceLimitGroupRepository;
@@ -22,10 +25,10 @@ class PlanServiceLimitGroupsController extends AbstractController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Plan $plan, ServiceLimitGroup $serviceLimitGroup, PlanServiceLimitGroupRequest $request)
+    public function store(Plan $plan, PlanServiceLimitGroupRequest $request)
     {
-        $result = $this->repository->addServiceLimitGroupToPlan( $plan, $serviceLimitGroup, $request->validated());
-        return $this->respondSuccess(null, "Service added to plan successfully", Response::HTTP_CREATED);
+        $result = $this->repository->addServiceLimitGroupToPlan($plan, $request->validated());
+        return $this->respondSuccess(null, "Service limit group added to plan successfully", Response::HTTP_CREATED);
     }
 
 
@@ -36,10 +39,10 @@ class PlanServiceLimitGroupsController extends AbstractController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Plan $plan, ServiceLimitGroup $serviceLimitGroup, PlanServiceLimitGroupRequest $request)
+    public function update(Plan $plan, PlanServiceLimitGroupRequest $request)
     {
-        $result = $this->repository->updateServiceOnPlan($plan, $serviceLimitGroup, $request->validated(),);
-        return $this->respondSuccess(null, "Service on plan updated successfully", Response::HTTP_OK);
+        $result = $this->repository->updateServiceLimitGroupOnPlan($plan, $request->validated(),);
+        return $this->respondSuccess(null, "Service limit group on plan updated successfully", Response::HTTP_OK);
 
     }
 
@@ -49,9 +52,9 @@ class PlanServiceLimitGroupsController extends AbstractController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete(Plan $plan, ServiceLimitGroup $service)
-    {
-        $result = $this->repository->removeServiceFromPlan($plan, $service);
-        return $this->respondSuccess(null, "Service removed from plan successfully", Response::HTTP_NO_CONTENT);
-    }
+    // public function delete(Plan $plan, ServiceLimitGroup $service)
+    // {
+    //     $result = $this->repository->removeServiceFromPlan($plan, $service);
+    //     return $this->respondSuccess(null, "Service limit group removed from plan successfully", Response::HTTP_NO_CONTENT);
+    // }
 }

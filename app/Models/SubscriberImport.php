@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Requests\SubscriberRequest;
+use App\Http\Traits\PolicyNumber;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -16,7 +17,7 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 
 class SubscriberImport implements ToModel, WithValidation, WithHeadingRow, WithChunkReading, WithBatchInserts, ShouldQueue
 {
-    use Importable;//, RemembersRowNumber;
+    use Importable, PolicyNumber;//, RemembersRowNumber;
 
     public function model(array $row)
     {        
@@ -30,7 +31,8 @@ class SubscriberImport implements ToModel, WithValidation, WithHeadingRow, WithC
             'country' => trim($row['country']),
             'company_id' => request()->get('company_id'),
             'plan_id' => request()->get('plan_id'),
-            'begin_date' => '2021-01-01'
+            'begin_date' => '2021-01-01',
+            'policy_number' => $this->generatePolicyNumber(request()->get('plan_id'))
         ]);
     }  
     

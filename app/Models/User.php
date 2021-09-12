@@ -8,11 +8,12 @@ use Illuminate\Notifications\Notifiable;
 use phpDocumentor\Reflection\Types\Boolean;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -26,8 +27,9 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at',
         'gender',
         'contact',
-        'service_provider_id',
-        'role_id'
+        'active',    // 'service_provider_id',
+        'role_id',
+        'amount'
     ];
 
     /**
@@ -51,6 +53,18 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     protected $table = 'users';
+
+    public static function boot(){
+        parent::boot();
+        static::creating(function($model){
+            $model->active = 1;
+            $model->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
+        });
+
+        static::addGlobalScope('active-user', function($query){
+            return $query->where('active', true);
+        });
+    }
 
     public function getJWTIdentifier()
     {

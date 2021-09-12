@@ -27,12 +27,14 @@ class UserRequest extends FormRequest
             'name' => 'required|alpha_space|min:5|max:50',
             'email' => "required|email|min:5|max:50|unique:users,email,{$this->user}",
             // 'user_type' => 'forbidden',
-            'gender' => 'required|in:male,female',
+            'amount' => 'required|numeric|min:0|max:9999',
+            'gender' => 'required|in:Male,Female',
             "contact" => "nullable|string|min:7|max:20",
-            'active' => 'required|bool',
-            'password' => 'required|min:5|max:20|string',
+            'active' => 'nullable|sometimes|bool',
+            'password' => 'required_unless:confirm_password,null|min:5|max:20|string',
+            'confirm_password'=> 'nullable|sometimes|string|min:5',
             'role_id' => 'required|exists:roles,id|numeric',
-            'service_provider_id' => 'required_unless:role_id,1|exists:service_providers,id|numeric'
+            'service_provider_id' => 'required_unless:role_id,1|exists:service_providers,id|array'
         ];
     }
 }

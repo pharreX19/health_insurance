@@ -98,7 +98,7 @@ class SubscriberRepository extends BaseRepository
 
     public function search($identification)
     {
-        return $this->model::where('national_id', 'LIKE', $identification . "%")->orWhere('work_permit', $identification . "%")->orWhere('passport', $identification . "%")->firstOrFail();
+        return $this->model::where('national_id', 'LIKE', $identification . "%")->orWhere('work_permit', 'LIKE',  $identification . "%")->orWhere('passport', 'LIKE', $identification . "%")->orWhere('policy_number', 'LIKE', $identification . "%")->firstOrFail();
     }
 
     private function userHasBalance($validatedData)

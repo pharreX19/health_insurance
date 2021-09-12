@@ -33,7 +33,8 @@ class SubscriberRequest extends FormRequest
             "*.company_id" => "nullable|numeric|exists:companies,id",
             "*.plan_id" => "required|numeric|exists:plans,id",
             "*.payment_method" => "nullable|sometimes|string|in:cash,credit,credit_card,cheque,online_payment",
-            "*.begin_date" => "nullable|date"
+            "*.begin_date" => "nullable|date",
+            "*.policy_number" => 'nullable'
         ];
     }
     
@@ -49,7 +50,8 @@ class SubscriberRequest extends FormRequest
             '0.contact' => 'contact',
             '0.company_id' => 'company',
             '0.plan_id' => 'plan',
-            '0.begin_date' => 'begin date'
+            '0.begin_date' => 'begin date',
+            '0.policy_number' => 'policy number'
         ];
     }
 }

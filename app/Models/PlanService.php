@@ -11,6 +11,8 @@ class PlanService extends Pivot
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = ['limit_total'];
+
     protected $table = 'plan_service';
 
     protected $casts = [

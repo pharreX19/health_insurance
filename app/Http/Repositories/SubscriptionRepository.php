@@ -37,12 +37,12 @@ class SubscriptionRepository extends BaseRepository
         return $this->planSubscriptionService->subscribe($validatedData, $id);
     }
 
-    public function destroy($id)
-    {   
-        if($this->planSubscriptionService->unsubscribe($id)){
-            return parent::update(new Request(["is_active" => false]), $id);
-        }
-    }
+    // public function destroy($id)
+    // {   
+    //     if($this->planSubscriptionService->unsubscribe($id)){
+    //         return parent::update(new Request(["is_active" => false]), $id);
+    //     }
+    // }
 
 
     

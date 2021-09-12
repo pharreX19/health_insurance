@@ -24,7 +24,7 @@ class AddServiceToPlanRequest extends FormRequest
     public function rules()
     {
         return [
-            // "limit_total" => "required|numeric|min:1.00|max:99999999.99|regex:/^\d+(\.\d{1,2})?$/",
+            "limit_total" => "required|numeric|min:1.00|max:99999999.99|regex:/^\d+(\.\d{1,2})?$/",
             "limit_group_calculation_type_id" => "required|numeric|exists:service_limit_group_calculation_types,id",
         ];
     }

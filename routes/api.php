@@ -75,9 +75,9 @@ Route::group([
     Route::delete('/plans/{plan}/services/{service}/remove', [PlanServicesController::class, "delete"])->name('plan-services.destroy');
 
     //ADD, UPDATE AND REMOVE SERVICE-LIMIT-GROUPS TO/FROM PLAN
-    Route::post('/plans/{plan}/service-limit-groups/{serviceLimitGroup}/add', [PlanServiceLimitGroupsController::class, "store"])->name('plan-service-limit-group.store');
-    Route::patch('/plans/{plan}/service-limit-groups/{service-limit-group}/update', [PlanServiceLimitGroupsController::class, "update"])->name('plan-service-limit-group.update');
-    Route::delete('/plans/{plan}/service-limit-groups/{servicelimit-group}/remove', [PlanServiceLimitGroupsController::class, "delete"])->name('plan-service-limit-group.destroy');
+    Route::post('/plans/{plan}/service-limit-groups', [PlanServiceLimitGroupsController::class, "store"])->name('plan-service-limit-group.store');
+    Route::patch('/plans/{plan}/service-limit-groups/', [PlanServiceLimitGroupsController::class, "update"])->name('plan-service-limit-group.update');
+    // Route::delete('/plans/{plan}/service-limit-groups/', [PlanServiceLimitGroupsController::class, "delete"])->name('plan-service-limit-group.destroy');
     
     //APPROVE REJECT EPISODE CLAIMS
     /////
@@ -91,7 +91,8 @@ Route::group([
         [RoleController::class, 'grantOrRevokePermission'])->name('role.grantOrRevokePermission');
     
     //CREATE NEW SUBSCRIPTION, RENEW AND DELETE SUBSCRIPTION
-    Route::apiResource('/subscriptions', SubscriptionsController::class)->only(['store', 'update']);
+    // Route::apiResource('/subscriptions', SubscriptionsController::class)->only(['update']);
+    Route::patch('subscriptions/{id}', [SubscriptionsController::class, 'update'])->name('subscriptions.update');
     
     //SEARCH SUBSCRIBERS BY THEIR ID
     Route::get('/subscribers/search/{identification}', [SubscribersController::class, 'search'])->name('subscribers.search');

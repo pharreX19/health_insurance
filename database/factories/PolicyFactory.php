@@ -22,7 +22,7 @@ class PolicyFactory extends Factory
     public function definition()
     {
         return [
-            "name" => $this->faker->name(),
+            "name" => 'Expat Policy',//$this->faker->name(),
             "number_format" => json_encode(["YEAR_MONTH_CONST_SEQ"])
         ];
     }

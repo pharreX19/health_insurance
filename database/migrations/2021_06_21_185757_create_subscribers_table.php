@@ -22,7 +22,7 @@ class CreateSubscribersTable extends Migration
             $table->string("work_permit")->nullable()->index()->unique();
             $table->string('country')->default('Maldives');
             $table->string('contact')->nullable();
-            $table->string('policy_number')->unique()->index();
+            $table->string('policy_number');
             $table->foreignId('company_id')->nullable()->constrained()->onDelete("set null");
             $table->foreignId('plan_id')->nullable()->constrained()->onDelete("set null");
             $table->softDeletes();

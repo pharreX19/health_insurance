@@ -12,8 +12,19 @@ class ServiceTypeTableSeeder extends Seeder
      *
      * @return void
      */
+    protected $types = [
+        'Medical expenses other than in-patient expenses',
+        'Hospital benefits',
+        'Surgical benefits',
+        'Medical benefits (medical expenses for non surgical treatments',
+    ];
+
     public function run()
     {
-        ServiceType::factory(3)->create();
+        foreach($this->types as $type){
+            ServiceType::create([
+                'name' => $type
+            ]);
+        }
     }
 }

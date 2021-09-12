@@ -21,13 +21,14 @@ class ServiceLimitGroupFactory extends Factory
      *
      * @return array
      */
-    // protected $items = ["OP" , "IP & OP", "Emergency" , "IP" ];
+    protected $items = ["Inpatient Benefits" , "Outpatient Benefits" ];
     public function definition()
     {
-        return [
-            'name' => $this->faker->domainWord,
-            'description'=> $this->faker->sentence(),
-            // 'limit_total' => $this->faker->randomNumber(4),
-        ];
+        foreach($this->items as $item){
+            ServiceLimitGroup::create([
+                'name' => $item,
+                "description" => $this->faker->sentence
+            ]);
+        }
     }
 }

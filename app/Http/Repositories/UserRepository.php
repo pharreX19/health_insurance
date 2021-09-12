@@ -16,7 +16,8 @@ class UserRepository extends BaseRepository
     public function __construct()
     {
         $this->model = User::class;
-        $this->allowedIncludes = ['role', 'role.permissions'];
+        $this->allowedIncludes = ['role', 'role.permissions', 'serviceProviders'];
+        $this->allowedFilters = ['role_id'];
 
     }
 
@@ -47,10 +48,14 @@ class UserRepository extends BaseRepository
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    // public function store($validatedDate)
-    // {
-        
-    // }
+    public function store($validatedData)
+    {
+        $result = parent::store($validatedData);
+        // dd($result->toArray());
+        // dd($validatedData['service_provider_id']);
+        $this->attachServiceProviders($result, $validatedData);    
+        return $result;
+    }
 
     /**
      * Display the specified resource.
@@ -74,9 +79,11 @@ class UserRepository extends BaseRepository
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function update(Request $request, $id){
-
-    // }
+    public function update($validatedData, $id){
+        $result = parent::update($validatedData, $id);
+        $this->attachServiceProviders($result, $validatedData);
+        return $result;
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -88,5 +95,10 @@ class UserRepository extends BaseRepository
         // dd($this->model::delete($id));
     // }
 
-
+    public function attachServiceProviders($model, $validatedData)
+    {
+        if($validatedData['service_provider_id']){
+            $model->serviceProviders()->sync($validatedData['service_provider_id']);
+        }
+    }
 }

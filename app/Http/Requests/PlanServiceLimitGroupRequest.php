@@ -25,8 +25,16 @@ class PlanServiceLimitGroupRequest extends FormRequest
     {
         return [
             // "plan_id" => "required|numeric|exists:plans,id" ,
-            // "service_limit_group_id" =>  "required|numeric|exists:service_limit_groups,id",
-            "limit_total" => "required|numeric|min:100.00|max:99999999.99|regex:/^\d+(\.\d{1,2})?$/",
+            "*.service_limit_group_id" =>  "required|numeric|exists:service_limit_groups,id",
+            "*.limit_total" => "required|numeric|min:0.00|max:99999999.99|regex:/^\d+(\.\d{1,2})?$/",
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            "0.service_limit_group_id" => "service limit group",
+            "0.limit_total" => "service limit group limit total"
         ];
     }
 }

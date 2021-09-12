@@ -15,7 +15,7 @@ class PolicyRepository extends BaseRepository
     public function __construct()
     {
         $this->model = Policy::class;
-        $this->allowedIncludes = ['plans', 'plans.services'];
+        $this->allowedIncludes = ['plans', 'plans.services', 'plans.serviceLimitGroups'];
 
     }
 

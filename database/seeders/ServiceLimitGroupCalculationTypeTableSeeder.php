@@ -12,8 +12,16 @@ class ServiceLimitGroupCalculationTypeTableSeeder extends Seeder
      *
      * @return void
      */
+    protected $types = [
+        "annually", "monthly", "daily", "per-event"
+    ];
+
     public function run()
     {
-        ServiceLimitGroupCalculationType::factory(3)->create();
+        foreach($this->types as $type){
+            ServiceLimitGroupCalculationType::create([
+                'name'  => $type,
+            ]);
+        }
     }
 }

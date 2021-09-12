@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Requests\EpisodeServiceRequest;
 use App\Http\Repositories\EpisodeServicesRepository;
+use App\Models\Subscription;
 
 class EpisodeServicesController extends AbstractController
 {

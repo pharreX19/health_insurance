@@ -55,20 +55,19 @@ class PlanSubscriptionService{
         }
     }
 
-    public function unsubscribe($subscriptionId){
-        // dd($this->model->select('subscriber_id')->where('id', $subscriptionId)->first());
-        $subscriberId = $this->model->where('id', $subscriptionId)->value('subscriber_id');
-        // dd($subscriberId);
-        $subscriber = $this->model->subscriber()->getRelated()->where('id', $subscriberId)->first();
-        // dd($subscriber);
-        $subscriber->plan_id = null;
-        return $subscriber->save();
-    }
+    // public function unsubscribe($subscriptionId){
+    //     // dd($this->model->select('subscriber_id')->where('id', $subscriptionId)->first());
+    //     $subscriberId = $this->model->where('id', $subscriptionId)->value('subscriber_id');
+    //     // dd($subscriberId);
+    //     $subscriber = $this->model->subscriber()->getRelated()->where('id', $subscriberId)->first();
+    //     // dd($subscriber);
+    //     $subscriber->plan_id = null;
+    //     return $subscriber->save();
+    // }
 
     
     public function subscriptionExists($subscriberId, $planId = null, $id = null)
     {   
-        
         // $query =  $this->model->query();
         
         // dd($query);
@@ -82,14 +81,18 @@ class PlanSubscriptionService{
                 //     $q->where("id", $id);
                 // });
                 // $result = $query->latest("id")->first();          
-        $query = $this->model->subscriber()->getRelated()->with(['subscriptions', 'plan'])->where('subscribers.id', $subscriberId)->whereNotNull('plan_id')->first()->subscriptions()->latest()->first();
+        $query = $this->model->whereHas('subscriber', function($query) use ($subscriberId){
+            $query->where('id', $subscriberId)->whereNotNull('plan_id');
+        })->latest()->first();
+
+        // ->subscriber()->getRelated()->with(['subscriptions', 'plan'])->where('subscribers.id', $subscriberId)->whereNotNull('plan_id')->first()->subscriptions()->latest()->first();
 
         if (!$query && $id) {
             throw ValidationException::withMessages([
                 "subscription" => "Not subscribed to ".($id ? "this" : "a")." plan"
             ]);
         }
-        if($id){
+        if($id && $query){
             // $query = $query->subscriptions()->latest()->first();
             $this->setPreviousSubscription($query);
         }
@@ -102,11 +105,11 @@ class PlanSubscriptionService{
     {
         $result = $this->subscriptionExists(...func_get_args());
 
-        if(!$result){
-            throw ValidationException::withMessages([
-                'message' => 'No subscription found for this user'
-            ]);
-        }
+        // if(!$result){
+        //     throw ValidationException::withMessages([
+        //         'message' => 'No subscription found for this user'
+        //     ]);
+        // }
         // if($result->subscriptions()->latest()->first()->expiry_date >= Carbon::now()->format('Y-m-d')){
             if($result->expiry_date >= Carbon::now()->format('Y-m-d')){
             return  $result;

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Http\Repositories\RepositoryInterface;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 use PhpParser\Builder\Property;
 
 class BaseRepository implements RepositoryInterface
@@ -27,8 +28,12 @@ class BaseRepository implements RepositoryInterface
      */
     public function index()
     {
-        return QueryBuilder::for($this->model)->allowedSorts($this->allowedSorts)->defaultSort('-created_at')->allowedFilters($this->allowedFilters)->allowedIncludes($this->allowedIncludes)->get();//->paginate(15);
- 
+        $query = $this->model::query();
+        $query =  QueryBuilder::for($this->model)->allowedSorts($this->allowedSorts)->defaultSort('-created_at')->allowedFilters($this->allowedFilters)->allowedIncludes($this->allowedIncludes);//->paginate(15);
+        $query->when(Auth::user()->role_id === 1, function($q){
+            return $q->withoutGlobalScope('active-user');
+        });
+        return $query->get();
     }
 
     /**
@@ -118,6 +123,9 @@ class BaseRepository implements RepositoryInterface
     }
 
     protected function find($id){
+        if(Auth::user()->role_id === 1){
+            return $this->model::withOutGlobalScope('active-user')->findOrFail($id);
+        }
         return $this->model::findOrFail($id);        
     }
 

@@ -43,7 +43,7 @@ class EpisodeServicesRepository extends BaseRepository
     public function updateServiceOnEpisode($validatedData, $id)
     {
         $serviceEpisode = $this->find($id);
-        $episode = $this->getEpisode($serviceEpisode->episode_id);
+        // $episode = $this->getEpisode($serviceEpisode->episode_id);
         return parent::update($validatedData, $id);
     }
 
@@ -51,7 +51,7 @@ class EpisodeServicesRepository extends BaseRepository
     public function removeServiceFromEpisode($id)
     {
         $serviceEpisode = $this->find($id);
-        $episode = $this->getEpisode($serviceEpisode->episode_id);
+        // $episode = $this->getEpisode($serviceEpisode->episode_id);
         return parent::destroy($id);
     }
 
@@ -89,29 +89,31 @@ class EpisodeServicesRepository extends BaseRepository
             
             $result = $this->serviceSubscriptionService->getPlanServiceLimit($validatedData['service_id'], $episode->subscriber_id);//$currentSubscription->plan, $service, 
             // $currentSubscription);
-        
-            if(!$result['service_limit']){
-                $result['service_limit'] = isset($validatedData['limit_total']) ? $validatedData['limit_total'] : null;
-                $result['insurance_covered_limit'] = $result['service_limit'] > $result['insurance_covered_limit'] ? $result['insurance_covered_limit'] : $result['service_limit'];
+        dd($result);
+        //---------------- changed 
+            // if(!$result['service_limit']){
+            //     $result['service_limit'] = isset($validatedData['limit_total']) ? $validatedData['limit_total'] : null;
+            //     $result['insurance_covered_limit'] = $result['service_limit'] > $result['insurance_covered_limit'] ? $result['insurance_covered_limit'] : $result['service_limit'];
 
-                if(!$result['service_limit']){
-                    throw ValidationException::withMessages([
-                        'message' => 'Service limit total is required'
-                    ]);
-                }
-            }
-            if($result['service_limit'] > $result['insurance_covered_limit'] + ($validatedData['aasandha_covered_limit'] ?? 0) + ($validatedData['self_covered_limit'] ?? 0)){
+            //     if(!$result['service_limit']){
+            //         throw ValidationException::withMessages([
+            //             'message' => 'Service limit total is required'
+            //         ]);
+            //     }
+            // }
+            //----------------
+            if($validatedData['limit_total'] > $result['insurance_covered_limit'] + ($validatedData['aasandha_covered_limit'] ?? 0) + ($validatedData['self_covered_limit'] ?? 0)){
                 throw ValidationException::withMessages([
                     'message' => 'Service price exceeds the payment',
                     // 'insurance' => 'Insurance covered for this service is MVR '.$result['insurance_covered_limit']
                 ]);
-            }else if($result['service_limit'] < $result['insurance_covered_limit'] + ($validatedData['aasandha_covered_limit'] ?? 0) + ($validatedData['self_covered_limit'] ?? 0)){
-                throw ValidationException::withMessages([
-                    'message' => 'Payment exceeds the service price',
-                    // 'insurance' => 'Insurance covered for this service is MVR '.$result['insurance_covered_limit'] 
-                ]);
             }
-
+            // else if($validatedData['limit_total'] < $result['insurance_covered_limit'] + ($validatedData['aasandha_covered_limit'] ?? 0) + ($validatedData['self_covered_limit'] ?? 0)){
+            //     throw ValidationException::withMessages([
+            //         'message' => 'Payment exceeds the service price',
+            //         // 'insurance' => 'Insurance covered for this service is MVR '.$result['insurance_covered_limit'] 
+            //     ]);
+            // }
 // dd($result['current_subscription']);
             try {
                 DB::beginTransaction();
@@ -120,12 +122,12 @@ class EpisodeServicesRepository extends BaseRepository
                     // dd($planServiceLimit);
                     if(isset($result['current_subscription'])){
                         $subscription = $result['current_subscription'];//->subscriptions()->latest()->first();
-                        $subscription->plan_remaining -= $result['insurance_covered_limit'];
+                        $subscription->plan_remaining -= $validatedData['limit_total']; //$result['insurance_covered_limit'];
                         $subscription->save();
                     }
                 
                 $episode->services()->attach($validatedData['service_id'], [
-                    'insurance_covered_limit' => $result['insurance_covered_limit'],
+                    'insurance_covered_limit' => $result['insurance_covered_limit'] >= $validatedData['limit_total'] ? $validatedData['limit_total'] : $result['insurance_covered_limit'],
                     'aasandha_covered_limit' => $validatedData['aasandha_covered_limit'] ?? 0,
                     'self_covered_limit' => $validatedData['self_covered_limit'] ?? 0,
                 ]);

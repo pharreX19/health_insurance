@@ -27,11 +27,12 @@ class UsersController extends AbstractController
      */
     public function store(UserRequest $request)
     {
-        $result =  parent::createItem($request->validated());
-        if($request->validated()['service_provider_id']){
-            $result['data']->serviceProviders()->attach($request->validated()['service_provider_id']);
-        }
-        return $result;
+        return parent::createItem($request->validated());
+    //     $this->attachServiceProviders($result['data'], $request->validated());
+        // if($request->validated()['service_provider_id']){
+        //     $result['data']->serviceProviders()->attach($request->validated()['service_provider_id']);
+        // }
+        // return $result;
         // $result->serviceProvider()->attach($request->validated()['service_provider_id']);
     }
 
@@ -53,9 +54,11 @@ class UsersController extends AbstractController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        //
+        return parent::updateItem($request->validated(), $id);
+    //     $this->attachServiceProviders($result['data'], $request->validated());
+        // return $result;
     }
     
 
@@ -63,6 +66,8 @@ class UsersController extends AbstractController
     {
         return $this->repository->assignRole(...func_get_args());
     }
+
+    
 
 
     
