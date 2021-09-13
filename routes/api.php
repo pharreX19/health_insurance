@@ -19,9 +19,9 @@ use App\Http\Controllers\Api\V1\ServiceProvidersController;
 use App\Http\Controllers\Api\V1\ServiceLimitGroupsController;
 use App\Http\Controllers\Api\V1\PlanServiceLimitGroupsController;
 use App\Http\Controllers\Api\V1\ServiceLimitGroupCalculationTypesController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\Api\V1\PermissionController;
+use App\Http\Controllers\Api\V1\RoleController;
+use App\Http\Controllers\Api\V1\UsersController;
 
 /*
 |--------------------------------------------------------------------------
