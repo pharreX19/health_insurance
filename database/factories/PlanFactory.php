@@ -24,12 +24,12 @@ class PlanFactory extends Factory
     public function definition()
     {
         return [
-            'name'=> 'Expat plan',//$this->faker->colorName(),
-            'limit_total'=> 100000,//$this->faker->randomNumber(6),
+            'name'=> $this->faker->colorName(),
+            'limit_total'=> $this->faker->randomNumber(6),
             'territorial_limit'=>'SAARC',
             'currency'=> 'MVR', //$this->faker->randomElement(['MVR', 'USD']),
-            'premium' => 800, //$this->faker->numberBetween(100, 10000),
-            "policy_id" => 1//Policy::inRandomOrder()->first()->id
+            'premium' => $this->faker->numberBetween(100, 10000),
+            "policy_id" => Policy::inRandomOrder()->first()->id
         ];
     }
 }

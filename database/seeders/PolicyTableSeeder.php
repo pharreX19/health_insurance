@@ -27,7 +27,8 @@ class PolicyTableSeeder extends Seeder
     {
         foreach($this->policies as $policy){
             Policy::create([
-                'name' => $policy
+                'name' => $policy,
+                "number_format" => "YEAR_MONTH_CONST_SEQ"
             ]);
         }
     }

@@ -14,6 +14,6 @@ class ServiceLimitGroupTableSeeder extends Seeder
      */
     public function run()
     {
-        ServiceLimitGroup::factory(3)->create();
+        ServiceLimitGroup::factory()->create();
     }
 }

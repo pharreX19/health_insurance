@@ -21,14 +21,16 @@ class ServiceLimitGroupFactory extends Factory
      *
      * @return array
      */
-    protected $items = ["Inpatient Benefits" , "Outpatient Benefits" ];
+    
     public function definition()
     {
-        foreach($this->items as $item){
-            ServiceLimitGroup::create([
+        $items = ["Inpatient Benefits" , "Outpatient Benefits" ];
+
+        foreach($items as $item){
+            return [
                 'name' => $item,
                 "description" => $this->faker->sentence
-            ]);
+            ];
         }
     }
 }

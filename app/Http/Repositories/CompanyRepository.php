@@ -75,6 +75,6 @@ class CompanyRepository extends BaseRepository
     // }
 
     public function search($registration){
-        return $this->model::where('registration', 'LIKE', strtolower($registration).'%')->get();
+        return $this->model::where('registration', 'LIKE', strtolower($registration).'%')->firstOrFail();
     }
 }

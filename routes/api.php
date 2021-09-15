@@ -76,7 +76,7 @@ Route::group([
 
     //ADD, UPDATE AND REMOVE SERVICE-LIMIT-GROUPS TO/FROM PLAN
     Route::post('/plans/{plan}/service-limit-groups', [PlanServiceLimitGroupsController::class, "store"])->name('plan-service-limit-group.store');
-    Route::patch('/plans/{plan}/service-limit-groups/', [PlanServiceLimitGroupsController::class, "update"])->name('plan-service-limit-group.update');
+    Route::patch('/plans/{plan}/service-limit-groups', [PlanServiceLimitGroupsController::class, "update"])->name('plan-service-limit-group.update');
     // Route::delete('/plans/{plan}/service-limit-groups/', [PlanServiceLimitGroupsController::class, "delete"])->name('plan-service-limit-group.destroy');
     
     //APPROVE REJECT EPISODE CLAIMS
