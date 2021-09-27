@@ -44,9 +44,11 @@ class PermissionCommand extends Command
         $this->info('Creating resources and permissions.');
 
         $defaultPermissions = ['index', 'show', 'store', 'update', 'destroy'];
+        $action = null;
+
         foreach($this->router->getRoutes() as $key => $route){
             $name = $route->getName();
-            $action = $route->getActionname();
+            $this->action = last(explode('@', $route->getActionName()));
             $resourceName = substr($name, 0, strpos($name, '.'));
             if(empty($name)){
                 $this->warn("The route [{$route->uri}] does not have a route name.]");
@@ -63,7 +65,7 @@ class PermissionCommand extends Command
         $result =  Permission::create([
             'name' => $name, 
             'slug' => $slug,
-            'description' => ''
+            'description' => $this->getPermissionDescription($name, $this->action)
         ]);
         
         Role::where('name', 'admin')->first()->permissions()->attach($result->id);
@@ -89,7 +91,15 @@ class PermissionCommand extends Command
                 $permissionName = "Delete {$resourceName}";
                 break;
             default: 
-                $permissionName = $action." ".$resourceName;
+                if(($action)." ".$resourceName == 'App\Http\Controllers\SubscribersImportController subscribers'){
+                    $permissionName = "Import subscribers list";
+                }else if(strtolower($action." ".$resourceName) == 'grantorrevokepermission role'){
+                    $permissionName = 'Grant or revoke permission role';
+                }else if(strtolower($action." ".$resourceName) == 'assignrole user'){
+                    $permissionName = 'Assign role to user';
+                }else{
+                    $permissionName = $action." ".$resourceName;
+                }
                 break;                          
         }
         return $permissionName;
