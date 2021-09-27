@@ -14,7 +14,7 @@ class ServiceTypeRepository extends BaseRepository
     public function __construct()
     {
         $this->model = ServiceType::class;
-        $this->allowedIncludes = ['services'];
+        $this->allowedIncludes = ['services', 'services.serviceLimitGroup'];
 
     }
 
