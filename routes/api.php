@@ -44,10 +44,16 @@ Route::group([
     'prefix' => 'v1',
     'middleware' => 'auth:api'
 ],function(){
+    Route::post('login', [AuthController::class, 'login'])->withoutMiddleware(['auth:api','isAuthorized'])->name('user.login');
+    Route::get('profile', [AuthController::class, 'profile'])->name('profile.show');
+    Route::post('logout', [AuthController::class, 'logout'])->name('user.logout');
+    Route::post('change-password', [AuthController::class, 'changePassword'])->name('password.change');
 
-    Route::post('login', [AuthController::class, 'login'])->withoutMiddleware(['auth:api','isAuthorized'])->name('auth.login');
-    Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
+    Route::post('forgot-password', [AuthController::class, 'submitForgetPassword'])->name('user.forget_password')->withoutMiddleware(['auth:api', 'isAuthorized']); 
+    Route::post('reset-password', [AuthController::class, 'submitResetPassword'])->name('user.reset_password')->withoutMiddleware(['auth:api', 'isAuthorized']);
 
+    //ADMIN CAN RESET USERS PASSWORD TO DEFAULT 
+    // Route::post('users/{user}/reset-password', [AuthController::class, 'reset'])->name('password.reset');
 
     //CRUD OPERATIONS
     Route::apiResource('/users', UsersController::class);
@@ -83,7 +89,7 @@ Route::group([
     /////
     ////
 
-    Route::apiResource('roles', RoleController::class);
+    Route::apiResource('roles', RoleController::class)->except(['store', 'update']);
     Route::get('permissions', [PermissionController::class, 'index'])->name('permissions.index');
 
     Route::post('/users/{user}/roles/{role}', [UsersController::class, 'assignRole'])->name('user.assignRole');
