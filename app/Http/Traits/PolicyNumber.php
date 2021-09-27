@@ -16,8 +16,9 @@ trait PolicyNumber{
     private function getLatestNumber(Plan $plan): ?array
     {
         $result =  $plan->subscribers()->latest()->first();
-        if($result){
-            return explode('_', $result->getRawOriginal('policy_number'));
+        $policy_number = ($result->subscriptions()->value('policy_number'));
+        if($policy_number){
+            return explode('_', $policy_number);
             // return $result->policy_number;//last(explode("_", $result->policy_number));
         }
         return null;
@@ -55,7 +56,7 @@ trait PolicyNumber{
         try{
             $combinedArray = (array_combine($numberFormatInArray, $lastNumberSeq));
         }catch(Exception $ex){
-            $combinedArray = ['seq' => 0];
+            $combinedArray = ['SEQ' => 0];
         }
 
         foreach($numberFormatInArray as &$key){
@@ -76,7 +77,7 @@ trait PolicyNumber{
                     break;
             }
         }
-        
+    
         return implode("_", $numberFormatInArray);
     }
 
