@@ -23,7 +23,7 @@ class Subscriber extends Model
         "passport",
         "work_permit",
         "national_id",
-        "policy_number",
+        // "policy_number",
         "country",
         "contact",
         "company_id",
