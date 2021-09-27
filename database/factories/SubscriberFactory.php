@@ -33,7 +33,7 @@ class SubscriberFactory extends Factory
             "contact" => $this->faker->phoneNumber,
             "company_id"=> Company::inRandomOrder()->first()->id,
             "plan_id"=> Plan::inRandomOrder()->first()->id,
-            "policy_number" => '2021_10_HIT_'.$this->faker->randomNumber
+            // "policy_number" => '2021_10_HIT_'.$this->faker->randomNumber
         ];
     }
 }
