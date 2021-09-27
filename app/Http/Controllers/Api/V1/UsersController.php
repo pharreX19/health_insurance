@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Repositories\UserRepository;
 use App\Http\Controllers\Api\V1\AbstractController;
+use App\Http\Requests\UserUpdateRequest;
 
 class UsersController extends AbstractController
 {
@@ -54,7 +55,7 @@ class UsersController extends AbstractController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
         return parent::updateItem($request->validated(), $id);
     //     $this->attachServiceProviders($result['data'], $request->validated());
