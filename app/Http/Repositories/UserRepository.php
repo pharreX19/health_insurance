@@ -81,7 +81,9 @@ class UserRepository extends BaseRepository
      */
     public function update($validatedData, $id){
         $result = parent::update($validatedData, $id);
-        $this->attachServiceProviders($result, $validatedData);
+        if(isset($validatedData['service_provider_id'])){
+            $this->attachServiceProviders($result, $validatedData);
+        }
         return $result;
     }
 
