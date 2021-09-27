@@ -41,23 +41,22 @@ class SubscriberRepository extends BaseRepository
      */
     public function store($validatedData)
     {
-
         // $plan_id = $validatedData['plan_id'];
+        $results = [];
+        $policy_number = $this->generatePolicyNumber($validatedData[0]['plan_id']);
+        
         foreach ($validatedData as $data) {
             if (isset($data['plan_id']) && $this->userHasBalance($data)) {
-                $policy_number = $this->generatePolicyNumber($data['plan_id']);
-                // dd($policy_number);
-                $data['policy_number'] = $policy_number;
-            }
-            $result = parent::store($data);
-            // dd($result);
-            if ($result && isset($data['plan_id'])) {
-                // $this->updatePolicyNumber($data['plan_id']);
-                $data['subscriber_id'] = $result['id'];
-                (new SubscriptionRepository)->store($data);
+                $result = parent::store($data);
+                array_push($results, $result);
+                if ($result && isset($data['plan_id'])) {
+                    $data['policy_number'] = $policy_number;
+                    $data['subscriber_id'] = $result['id'];
+                    (new SubscriptionRepository)->store($data);
+                }
             }
         }
-        return $result;
+        return $results;
     }
 
     /**
@@ -98,7 +97,7 @@ class SubscriberRepository extends BaseRepository
 
     public function search($identification)
     {
-        return $this->model::where('national_id', 'LIKE', $identification . "%")->orWhere('work_permit', 'LIKE',  $identification . "%")->orWhere('passport', 'LIKE', $identification . "%")->orWhere('policy_number', 'LIKE', $identification . "%")->firstOrFail();
+        return $this->model::join('subscriptions', 'subscribers.id', '=', 'subscriptions.subscriber_id')->where('national_id', 'LIKE', $identification . "%")->orWhere('work_permit', 'LIKE',  $identification . "%")->orWhere('passport', 'LIKE', $identification . "%")->orWhere('policy_number', 'LIKE', $identification . "%")->get();
     }
 
     private function userHasBalance($validatedData)
