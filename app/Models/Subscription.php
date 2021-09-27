@@ -20,7 +20,8 @@ class Subscription extends Model
         "begin_date",
         "expiry_date",
         "is_active",
-        "payment_method"
+        "payment_method",
+        "policy_number"
     ];
 
     protected $dates = [
