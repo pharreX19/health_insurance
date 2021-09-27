@@ -21,6 +21,7 @@ class CreateSubscriptionsTable extends Migration
             $table->date('begin_date')->nullable();
             $table->date('expiry_date')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->string('policy_number');
             $table->enum('payment_method', ['cash', 'credit card', 'cheque', 'credit', 'online payment'])->default('cash');
             $table->timestamps();
             $table->softDeletes();
