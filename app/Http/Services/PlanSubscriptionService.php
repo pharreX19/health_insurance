@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Http\Traits\PolicyNumber;
 use Exception;
 use Carbon\Carbon;
 use App\Models\Plan;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class PlanSubscriptionService{
+    use PolicyNumber;
 
     private $previousSubscription;
     private $model;
@@ -37,7 +39,7 @@ class PlanSubscriptionService{
 
                 $result = $this->model->create([
                     "subscriber_id" => $subscriberId,
-                    // "plan_id" =>$planId,
+                    "policy_number" => $validatedData['policy_number'],
                     "plan_remaining" => $planLimitTotal,
                     "begin_date" => $validatedData["begin_date"] ?? Carbon::now()->toDateString(),
                 ]);
