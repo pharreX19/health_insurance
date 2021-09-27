@@ -24,7 +24,7 @@ class SubscriberRequest extends FormRequest
     public function rules()
     {
         return [
-            "*.name" => "required|alpha_space|min:5|max:255|unique:subscribers,name",
+            "*.name" => "required|alpha_space|min:5|max:255",
             "*.passport" => "required_without:*.national_id|min:5|max:20|alpha_num|unique:subscribers,passport,{$this->subscriber}",
             "*.national_id" => "required_without:*.passport|min:5|max:20|alpha_num|unique:subscribers,national_id,NULL,id,deleted_at,NULL",
             "*.work_permit" => "required_without:*.national_id|min:5|max:20|alpha_num|unique:subscribers,work_permit,{$this->subscriber}",
@@ -34,7 +34,7 @@ class SubscriberRequest extends FormRequest
             "*.plan_id" => "required|numeric|exists:plans,id",
             "*.payment_method" => "nullable|sometimes|string|in:cash,credit,credit_card,cheque,online_payment",
             "*.begin_date" => "nullable|date",
-            "*.policy_number" => 'nullable'
+            // "*.policy_number" => 'nullable'
         ];
     }
     
@@ -51,7 +51,7 @@ class SubscriberRequest extends FormRequest
             '0.company_id' => 'company',
             '0.plan_id' => 'plan',
             '0.begin_date' => 'begin date',
-            '0.policy_number' => 'policy number'
+            // '0.policy_number' => 'policy number'
         ];
     }
 }
